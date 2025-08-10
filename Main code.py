@@ -161,7 +161,7 @@ class StudentsDB:
             while True:
                 choice = int(
                     input(
-                        "Sellect number of information to update from the list below : \n1. Student Name.\n2. Student age.\n3. Student major.\n4. Student year of college."
+                        "Sellect number of information to update from the list below : \n1. Student Name.\n2. Student age.\n3. Student major.\n4. Student year of college.\n"
                     )
                 )
                 if choice == 1:
