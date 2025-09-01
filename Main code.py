@@ -139,45 +139,76 @@ class StudentsDB:
         for i in range(self.students.__len__()):
             self.students[i].display_info()
 
+    def student_validation(self, studentID):
+        studentIDX = -1
+        for i in range(len(self.students)):
+            if self.students[i].student_id == studentID:
+                studentIDX = i
+                return studentIDX
+            else:
+                print(f"Error, student with {studentID} not found in the database.\n")
+                return
+
+    def is_empty(self) -> bool:
+        return self.students.__len__() == 0
+
     def update_DB(self):
-        if self.students.__len__() == 0:
-            print("Error, cant update empty database.")
+        if self.is_empty():
+            print("Error, cant update empty database.\n")
+            return
+        studentID = input(
+            "Please enter the student ID whose information you want to update.\n"
+        )
+        studentIDX = self.student_validation(studentID)
+        while not studentIDX:
+            print("---------Please retry with correct id----------\n")
+            studentIDX = self.student_validation(studentID)
 
-        else:
-            studentID = input(
-                "Please enter the student ID whose information you want to update.\n"
-            )
-            studentIDX = -1
-            for i in range(len(self.students)):
-                if self.students[i].student_id == studentID:
-                    studentIDX = i
-                    break
-                else:
-                    print(
-                        f"Error, student with {studentID} not found in the database.\n"
-                    )
-                    return
-
-            while True:
-                choice = int(
-                    input(
-                        "Sellect number of information to update from the list below : \n1. Student Name.\n2. Student age.\n3. Student major.\n4. Student year of college.\n"
-                    )
+        while True:
+            choice = int(
+                input(
+                    "Sellect number of information to update from the list below : \n1. Student Name.\n2. Student age.\n3. Student major.\n4. Student year of college.\n"
                 )
-                if choice == 1:
-                    self.students[studentIDX].name_setter()
-                    break
-                elif choice == 2:
-                    self.students[studentIDX].age_setter()
-                    break
-                elif choice == 3:
-                    self.students[studentIDX].major_setter()
-                    break
-                elif choice == 4:
-                    self.students[studentIDX].year_of_college_setter()
-                    break
-                else:
-                    print("Error, wrong entry please retry.\n")
+            )
+            if choice == 1:
+                self.students[studentIDX].name_setter()
+
+                break
+            elif choice == 2:
+                self.students[studentIDX].age_setter()
+                break
+            elif choice == 3:
+                self.students[studentIDX].major_setter()
+                break
+            elif choice == 4:
+                self.students[studentIDX].year_of_college_setter()
+                break
+            else:
+                print("Error, wrong entry please retry.\n")
+
+    def delete_DB(self):
+        if self.is_empty():
+            print("Error, cant delete elements from empty database.\n")
+            return
+        studentID = input(
+            "Please enter the student ID whose information you want to DELETE.\n"
+        )
+        studentIDX = self.student_validation(studentID)
+        while not studentIDX:
+            print("---------Please retry with correct id----------\n")
+            studentIDX = self.student_validation(studentID)
+        while True:
+            self[studentIDX].display_info()
+            confirmation = input("Do you want to delete this stuednt data?(y/n)\n")
+            if confirmation.lower() == "y":
+                del self[studentIDX]
+                print("Deleted successfully.\n")
+                return
+            elif confirmation.lower() == "n":
+                print("Delete operation has benn canceled.\n")
+                return
+            else:
+                print("Wrong entry please try again.\n")
 
 
 TTU_students = StudentsDB()
